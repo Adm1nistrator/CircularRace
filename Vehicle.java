@@ -66,10 +66,8 @@ public class Vehicle implements Runnable{
             timeFinish=timeFinish+(punctureTime/1000);
             distance = speed * currentTime;
             System.out.println("Транспортное средство: " + name + " прошло путь: " + distance);
-
         }
         endTime =timeFinish;
-
 
     }
 

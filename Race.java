@@ -12,8 +12,8 @@ public class Race extends Thread {
     public static void main(String[] args) throws InterruptedException, IOException {
         Double circleLength = 2000.00;
         Truck truck = new Truck("Грузовик", 90, 0.1, circleLength);
-        Car car = new Car("Легковушка", 160, 0.3, circleLength);
-        Motorcycle motorcycle = new Motorcycle("Мотоцикл", 233, 0.2, circleLength);
+        Car car = new Car("Легковушка", 120, 0.3, circleLength);
+        Motorcycle motorcycle = new Motorcycle("Мотоцикл", 180, 0.2, circleLength);
 
         while (true) {
             Thread thread1 = new Thread(truck, "грузовик");
@@ -43,9 +43,13 @@ public class Race extends Thread {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             String string = reader.readLine();
 
-            if (string.equals("нет") || string.equals("n"))
-                break;
-
+            if (string.equals("да") || string.equals("y")) {
+                return;
+            } else {
+                if (string.equals("нет") || string.equals("n")) {
+                    break;
+                }
+            }
 
         }
 

@@ -1,42 +1,51 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by Aleksey on 03.10.2016.
  */
-public class Race extends Thread {
+public class Race {
     public static void main(String[] args) throws InterruptedException, IOException {
-        Double circleLength = 2000.00;
-        Truck truck = new Truck("Грузовик", 90, 0.1, circleLength);
-        Car car = new Car("Легковушка", 120, 0.3, circleLength);
-        Motorcycle motorcycle = new Motorcycle("Мотоцикл", 180, 0.2, circleLength);
-
         while (true) {
-            Thread thread1 = new Thread(truck, "грузовик");
-            Thread thread2 = new Thread(car, "легковушка");
-            Thread thread3 = new Thread(motorcycle, "мотоцикл");
 
-            thread1.start();
-            thread2.start();
-            thread3.start();
-            thread1.join();
-            thread2.join();
-            thread3.join();
+            Double circleLength = 402.336;
+            Truck truck = new Truck("Грузовик",25 , 0.0, 880.00);
+            Car car = new Car("Легковушка", 50, 0.3, 2);
+            Motorcycle motorcycle = new Motorcycle("Мотоцикл", 61, 0.2, true);
+
+
+            List<VehicleRunnable> vehicles = new ArrayList<>();
+            vehicles.add(new VehicleRunnable(truck,circleLength));
+            vehicles.add(new VehicleRunnable(car,circleLength));
+            vehicles.add(new VehicleRunnable(motorcycle,circleLength));
 
             TreeMap<Double, String> treeMap = new TreeMap<>();
-            treeMap.put(truck.getEndTime(), truck.getName());
-            treeMap.put(car.getEndTime(), car.getName());
-            treeMap.put(motorcycle.getEndTime(), motorcycle.getName());
+            List<Thread> threads = new ArrayList<>();
+
+            for (VehicleRunnable vehicle : vehicles) {
+                Thread thread = new Thread(vehicle);
+                threads.add(thread);
+                thread.start();
+            }
+
+            for (Thread thread : threads) {
+                thread.join();
+            }
+
+            for (VehicleRunnable vehicleRunnable : vehicles) {
+
+                treeMap.put(vehicleRunnable.getEndTime(), vehicleRunnable.getVehicle().name);
+
+            }
+
 
             System.out.println();
 
             for (Map.Entry position : treeMap.entrySet()) {
 
-                System.out.println("Транспортное средство: " + position.getValue() + " закончил круг за: " + position.getKey() + " секунды");
+                System.out.println(position.getValue() + " закончил круг за: " + position.getKey() + " секунды");  //// TODO: 06.10.2016 форматирование времени
             }
 
             System.out.println("Повторить заезд Да\\Нет(Y\\N)");
